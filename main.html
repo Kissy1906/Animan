@@ -16,8 +16,8 @@
             height: 100vh;
         }
         #container {
-            width: 80%;
-            max-width: 900px;
+            width: 100%;
+            max-width: device-width;
             background: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -126,6 +126,8 @@
             displayMessage(userInput, 'user');
             document.getElementById('userInput').value = '';
 
+            displayMessage('🤖 Typing...', 'bot', true);
+
             const response = await fetch('/chat', {
                 method: 'POST',
                 headers: {
@@ -134,12 +136,19 @@
                 body: JSON.stringify({ message: userInput })
             });
             const data = await response.json();
+
+            const loadingMessage = document.querySelector('.message.bot.typing');
+            if (loadingMessage) loadingMessage.remove();
+
             displayMessage(data.response, 'bot');
         }
 
-        function displayMessage(message, sender) {
+        function displayMessage(message, sender, isLoading = false) {
             const messageContainer = document.createElement('div');
             messageContainer.classList.add('message', sender);
+            if (isLoading) {
+                messageContainer.classList.add('typing');
+            }
 
             const messageText = document.createElement('p');
             messageText.textContent = message;
