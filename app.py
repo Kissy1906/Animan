@@ -9,11 +9,9 @@ load_dotenv()
 app = Flask(__name__)
 
 # Configure the Google Generative AI API key
-api_key = os.getenv("GEMINI_API_KEY")
-if not api_key:
-    raise ValueError("API key not found. Make sure you have set GEMINI_API_KEY in your .env file.")
 
-genai.configure(api_key=api_key)
+
+genai.configure(api_key="AIzaSyBAFGU_047hzioG_PLahd76lSRuzrmES34")
 
 # Create the model configuration
 generation_config = {
